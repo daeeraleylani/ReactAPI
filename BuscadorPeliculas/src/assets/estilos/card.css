@@ -1,0 +1,45 @@
+.image{
+    background-color: orange;
+    width: 200px;
+    padding: 20px 50px;
+    border-radius: 10px;
+}
+
+img{
+    width: 200px;
+    display: block;
+    margin: auto;
+    border-radius: 12px;
+
+}
+
+.descripcion{
+    text-align: justify;
+    justify-content: center;
+
+}
+
+.Nombre{
+    text-align: center;
+    font-size: 25px;
+    margin-top: 14px;
+}
+
+.Titulo{
+    font-weight: bold   ;
+    font-size: 30px;
+}
+.precio_anterior{
+    text-decoration: line-through;
+    color: red;
+    font-size: 20px;
+}
+.comprar{
+    padding: 10px 25px;
+    color: white; 
+    cursor: pointer;
+}
+.buton{
+    text-align: center;
+    
+}

@@ -1,0 +1,100 @@
+[
+    {
+        "id": 1,
+        "imagen": "http://localhost:5173/src/assets/imagenes/bonafont.webp",
+        "nombre": "Agua Bonafont",
+        "precio_ant":"precio anterior: $10",
+        "precio": "Precio: $22",
+        "descripcion": ""
+    },
+    {
+        "id": 2,
+        "imagen": "http://localhost:5173/src/assets/imagenes/coca.webp",
+        "nombre": "Coca-Cola",
+        "precio_ant":"precio anterior: $35",
+        "precio": "precio: $40",
+        "descripcion": ""
+    },
+    {
+        "id": 3,
+        "imagen": "http://localhost:5173/src/assets/imagenes/crema.webp",
+        "nombre": "Crema alpura",
+        "precio_ant":"precio anterior: $20",
+        "precio": "precio: $10",
+        "descripcion": ""
+    },
+    {
+        "id": 4,
+        "imagen": "http://localhost:5173/src/assets/imagenes/ffresa.jpg",
+        "nombre": "yogurt de fresa",
+        "precio_ant":"precio anterior: $10",
+        "precio": "precio: $35",
+        "descripcion": ""
+    },
+    {
+        "id": 5,
+        "imagen": "http://localhost:5173/src/assets/imagenes/atun.webp",
+        "nombre": "Atún",
+        "precio_ant":"precio anterior: $10",
+        "precio": "precio: $35",
+        "descripcion": ""
+    },
+    {
+        "id": 6,
+        "imagen": "http://localhost:5173/src/assets/imagenes/aceite.webp",
+        "nombre": "aceite ",
+        "precio_ant":"precio anterior: $10",
+        "precio": "precio: $35",
+        "descripcion": ""
+    },
+    {
+        "id": 7,
+        "imagen": "http://localhost:5173/src/assets/imagenes/jarrito.webp",
+        "nombre": "Jarrito de Piña",
+        "precio_ant":"Precio Anterior: $10",
+        "precio": "Precio: $35",
+        "descripcion": ""
+    },
+    {
+        "id": 8,
+        "imagen": "http://localhost:5173/src/assets/imagenes/chips.jpg",
+        "nombre": "Chips Fuego",
+        "precio_ant":"Precio Anterior: $10",
+        "precio": "Precio: $35",
+        "descripcion": ""
+    },
+    {
+        "id": 9,
+        "imagen": "http://localhost:5173/src/assets/imagenes/mayonesa.webp",
+        "nombre": "Mayonesa",
+        "precio_ant":"Precio Anterior: $10",
+        "precio": "Precio: $35",
+        "descripcion": ""
+    },
+    {
+        "id": 10,
+        "imagen": "http://localhost:5173/src/assets/imagenes/sal.jpg",
+        "nombre": "Sal la Fina",
+        "precio_ant":"Precio Anterior: $20",
+        "precio": "Precio: $35",
+        "descripcion": ""
+    },
+    {
+        "id": 9,
+        "imagen": "http://localhost:5173/src/assets/imagenes/cod.jpg",
+        "nombre": "Call of Duty Modern Warfare 3",
+        "precio_ant":"Precio Anterior: $1500",
+        "precio": "Precio: $35",
+        "descripcion": ""
+    },
+    {
+        "id": 9,
+        "imagen": "http://localhost:5173/src/assets/imagenes/injus.jpg",
+        "nombre": "INJUSTICE 2",
+        "precio_ant":"Precio Anterior: $1000",
+        "precio": "Precio: $120",
+        "descripcion": ""
+    }
+    
+    
+]

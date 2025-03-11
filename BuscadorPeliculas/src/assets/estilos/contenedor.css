@@ -1,0 +1,21 @@
+.seccion_Contactos{
+    background-color: #0B3D91;
+    width: 1250px;
+    border-radius: 20px;
+    padding: 20px 10px;
+}
+.seccion_Titulo{
+    color: yellow;
+    
+}
+
+
+.section_contactos_datos{
+    display: flex;
+    flex-wrap: wrap;
+    color: black;
+    gap: 15px;
+    justify-content: space-between;
+}
+
+

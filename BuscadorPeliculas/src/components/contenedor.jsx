@@ -4,7 +4,7 @@ function Contenedor(prop){
     return(
         <section className="seccion_Contactos">
             
-            <h1 className="seccion_Titulo">PRODUCTOS.</h1>
+            <h1 className="seccion_Titulo">PELICULAS.</h1>
             <div className="section_contactos_datos"> 
                 {prop.children}
             </div>

@@ -31,7 +31,7 @@ function App() {
           key={movie.id}
           imagen={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
           name={movie.title}
-          precio_ant="300"  
+          precio_ant="3099"  
           precio="250"  
         />
       ))}

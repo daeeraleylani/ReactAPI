@@ -1,11 +1,13 @@
 .seccion_Contactos{
-    background-color: #0B3D91;
     width: 1250px;
-    border-radius: 20px;
-    padding: 20px 10px;
+    align-content: center;
+    
 }
 .seccion_Titulo{
-    color: yellow;
+    color: rgb(255, 255, 255);
+    font-family:'Century Gothic', Courier, monospace;
+    font-weight: bold;
+    font-size: 32px;
     
 }
 

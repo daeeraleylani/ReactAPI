@@ -3,6 +3,7 @@ import './assets/estilos/App.css';
 import Contenedor from './components/contenedor';
 import { Card } from './components/card';
 import axios from 'axios';
+import SearchBar from './components/searchBar';
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -14,24 +15,23 @@ function App() {
         Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}` // Usa una variable de entorno segura
       }
     })
-    .then(response => {
-      setMovies(response.data.results);
-    })
-    .catch(error => {
-      console.error('Error al obtener los datos:', error);
-    });
+      .then(response => {
+        setMovies(response.data.results);
+      })
+      .catch(error => {
+        console.error('Error al obtener los datos:', error);
+      });
   }, []);
 
   return (
     <Contenedor>
+      <SearchBar />
       {
         movies.map(movie => (
           <Card
             key={movie.id}
             imagen={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             name={movie.title}
-            precio_ant="300"  // Valor de ejemplo, puedes cambiarlo
-            precio="250"  
           />
         ))
       }

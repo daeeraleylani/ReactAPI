@@ -1,30 +1,35 @@
 import './../assets/estilos/card.css';
 import Swal from 'sweetalert2';
 
-function Card({ name, imagen, descripcion, precio }) {
+function Card({ name, imagen, overview, releaseDate, voteAverage, genreIds, allGenres }) {
+    const genresList = genreIds.map(id => allGenres.find(genre => genre.id === id)?.name).join(", ") || "No disponible";
+
     const handlerClick = () => {
         Swal.fire({
-            icon: "success",
+            icon: "info",
             title: name,
-            
+            text: overview || "No hay descripción disponible",
             position: "center",
-            imageWidth: 200,
             imageUrl: imagen,
-            showConfirmButton: false,
-            timer: 3000,
+            imageWidth: 200,
+            showConfirmButton: false,  
+            timer: 4000,
         });
     };
 
     return (
-        <div className="image">
-            <img src={imagen ? imagen : "https://via.placeholder.com/200"} alt="No Disponible" />
+        <div className="image" onClick={handlerClick}>
+            <img 
+                src={imagen ? imagen : "https://via.placeholder.com/200"} 
+                alt={name || "Imagen no disponible"} 
+            />
             <h2 className='Nombre'>{name}</h2>
 
             <div className="descripcion">
-                
-                <br />
-                <span className='Titulo'>{precio ? `$${precio}` : ''}</span>
-                
+                <p><strong>Descripción:</strong> {overview || "No disponible"}</p>
+                <p><strong>Fecha de estreno:</strong> {releaseDate || "No disponible"}</p>
+                <p><strong>Calificación:</strong> ⭐ {voteAverage ? voteAverage + "/10" : "No disponible"}</p>
+                <p><strong>Géneros:</strong> {genresList}</p>
             </div>
         </div>
     );

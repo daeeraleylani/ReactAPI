@@ -1,9 +1,11 @@
 import './../assets/estilos/searchBar.css'
-function SearchBar(){
-    return(
-        
-            <input type="text"  className='Buscador' placeholder='Ingresa nombre, género o actor para buscar....'/>
+function SearchBar() {
+    return (
+        <section className='box'>
+            <input type="text" className='Buscador-Input' placeholder='🔎'/>
+        </section>
+
     )
 }
 
-export default SearchBar
+export default SearchBar    

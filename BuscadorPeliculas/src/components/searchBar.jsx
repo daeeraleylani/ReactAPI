@@ -1,26 +1,19 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import './../assets/estilos/searchBar.css';
 
 function SearchBar({ searchTerm, handleSearchChange }) {
-    const inputRef = useRef(null);
-    const [isHovered, setIsHovered] = useState(false);
+    const inputRef = useRef(null); // Referencia para el input del buscador
 
+    // Efecto para ajustar el ancho del input según el texto
     useEffect(() => {
         if (inputRef.current) {
             const input = inputRef.current;
-            
-            if (!isHovered) {
-                const textWidth = getTextWidth(searchTerm, input.style.font);
-                const newWidth = searchTerm.length > 0 
-                    ? Math.max(textWidth + 40, 70)
-                    : 70;
-                
-                input.style.width = `${newWidth}px`;
-                input.style.borderRadius = searchTerm.length > 0 ? '10px' : '50px';
-            }
+            const textWidth = getTextWidth(searchTerm, input.style.font);
+            input.style.width = `${textWidth + 20}px`; // +20 para el espacio a los lados
         }
-    }, [searchTerm, isHovered]);
+    }, [searchTerm]);
 
+    // Función para calcular el ancho del texto
     const getTextWidth = (text, font) => {
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
@@ -29,11 +22,7 @@ function SearchBar({ searchTerm, handleSearchChange }) {
     };
 
     return (
-        <section 
-            className='box' 
-            onMouseEnter={() => setIsHovered(true)} 
-            onMouseLeave={() => setIsHovered(false)}
-        >
+        <section className='box'>
             <input 
                 type="text" 
                 className='Buscador-Input' 
@@ -41,11 +30,10 @@ function SearchBar({ searchTerm, handleSearchChange }) {
                 value={searchTerm} 
                 onChange={handleSearchChange} 
                 ref={inputRef}
-                style={{ textAlign: 'center' }}
+                style={{ minWidth: '100px', padding: '0 10px', boxSizing: 'border-box' }} // Estilos iniciales
             />
         </section>
     );
-    ;
 }
 
 export default SearchBar;

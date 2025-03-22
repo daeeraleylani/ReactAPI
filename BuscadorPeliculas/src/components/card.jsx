@@ -1,26 +1,30 @@
 import './../assets/estilos/card.css';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import { useState } from 'react';
 
 function Card({ id, name, imagen, overview, releaseDate, voteAverage, genreIds, allGenres }) {
     const genresList = genreIds.map(id => allGenres.find(genre => genre.id === id)?.name).join(", ") || "No disponible";
+    const [isLoadingCredits, setIsLoadingCredits] = useState(false); 
 
     const handlerClick = () => {
         Swal.fire({
             icon: "info",
-            icon: "info",
             title: name,
-            text: overview || "No hay descripción disponible",
             text: overview || "No hay descripción disponible",
             position: "center",
             imageUrl: imagen,
             imageWidth: 200,
-            showConfirmButton: false,  
+            showConfirmButton: false,
             timer: 4000,
         });
     };
 
     const fetchCredits = async () => {
+        setIsLoadingCredits(true); 
+
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
         try {
             const response = await axios.get(`https://api.themoviedb.org/3/movie/${id}/credits`, {
                 headers: {
@@ -85,6 +89,8 @@ function Card({ id, name, imagen, overview, releaseDate, voteAverage, genreIds, 
                 position: "center",
                 showConfirmButton: true,
             });
+        } finally {
+            setIsLoadingCredits(false); 
         }
     };
 
@@ -105,9 +111,18 @@ function Card({ id, name, imagen, overview, releaseDate, voteAverage, genreIds, 
                 <p><strong>Calificación:</strong> ⭐ {voteAverage ? voteAverage + "/10" : "No disponible"}</p>
                 <p><strong>Géneros:</strong> {genresList}</p>
             </div>
-            <button className="btn-ver-creditos" onClick={fetchCredits}>
-                Ver Créditos
+            <button 
+                className={`btn-ver-creditos ${isLoadingCredits ? 'loading' : ''}`} 
+                onClick={fetchCredits}
+                disabled={isLoadingCredits} 
+            >
+                {isLoadingCredits ? (
+                    <span className="loading-spinner"></span> 
+                ) : (
+                    "Ver Créditos"
+                )}
             </button>
+            <br />
         </div>
     );
 }

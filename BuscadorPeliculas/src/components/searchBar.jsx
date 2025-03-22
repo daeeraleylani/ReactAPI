@@ -45,7 +45,7 @@ function SearchBar({ searchTerm, handleSearchChange }) {
             />
         </section>
     );
-    );
+    ;
 }
 
 export default SearchBar;

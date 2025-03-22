@@ -1,4 +1,4 @@
-.image {
+.card {
     background: rgba(183, 183, 183, 0.51);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -7,48 +7,67 @@
     border: 1px solid rgba(183, 183, 183, 0.04);
 
     width: 300px;
-    padding: 20px 50px;
-    border-radius: 10px;
+    height: 690px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    position: relative;
 }
 
-img {
+.card-image {
     width: 200px;
+    height: 250px;
     display: block;
     margin: auto;
     border-radius: 8px;
-
+    object-fit: cover;
 }
 
-.descripcion {
+.card-content {
     text-align: justify;
     justify-content: center;
-
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
-.Nombre {
+.card-description {
+    font-size: 14px;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+.card-description strong {
+    font-weight: bold;
+}
+
+.card-title {
     text-align: center;
     font-size: 25px;
     margin-top: 14px;
+    margin-bottom: 10px;
 }
 
-.Titulo {
-    font-weight: bold;
-    font-size: 30px;
-}
-
-.precio_anterior {
-    text-decoration: line-through;
-    color: red;
-    font-size: 20px;
-}
-
-.comprar {
-    padding: 10px 25px;
+.btn-ver-creditos {
+    background-color: #007bff;
     color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
 }
 
-.buton {
-    text-align: center;
-
+.btn-ver-creditos:hover {
+    background-color: #0056b3;
 }

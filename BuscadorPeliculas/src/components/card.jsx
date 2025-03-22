@@ -8,7 +8,9 @@ function Card({ id, name, imagen, overview, releaseDate, voteAverage, genreIds, 
     const handlerClick = () => {
         Swal.fire({
             icon: "info",
+            icon: "info",
             title: name,
+            text: overview || "No hay descripción disponible",
             text: overview || "No hay descripción disponible",
             position: "center",
             imageUrl: imagen,

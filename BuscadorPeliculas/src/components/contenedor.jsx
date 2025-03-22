@@ -1,6 +1,4 @@
-import './../assets/estilos/contenedor.css'
-import './../components/searchBar';
-import SearchBar from './../components/searchBar';
+import './../assets/estilos/contenedor.css';
 
 function Contenedor(prop) {
     return (
@@ -10,9 +8,9 @@ function Contenedor(prop) {
             <div className="section_contactos_datos">
                 {prop.children}
             </div>
-
         </section>
-    )
+    );
 }
-export default Contenedor
+
+export default Contenedor;
 

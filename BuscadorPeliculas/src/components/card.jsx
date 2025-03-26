@@ -96,6 +96,7 @@ function Card({ id, name, imagen, overview, releaseDate, voteAverage, genreIds, 
 
     return (
         <div className="card">
+            <p className='card-calificacion'> ★ {voteAverage ? voteAverage + "/10" : "No disponible"} ★</p>
             <img 
                 src={imagen ? imagen : "https://via.placeholder.com/200"} 
                 alt={name || "Imagen no disponible"} 
@@ -108,7 +109,7 @@ function Card({ id, name, imagen, overview, releaseDate, voteAverage, genreIds, 
                     <strong>Descripción:</strong> {overview || "No disponible"}
                 </p>
                 <p><strong>Fecha de estreno:</strong> {releaseDate || "No disponible"}</p>
-                <p><strong>Calificación:</strong> ⭐ {voteAverage ? voteAverage + "/10" : "No disponible"}</p>
+                
                 <p><strong>Géneros:</strong> {genresList}</p>
             </div>
             <button 

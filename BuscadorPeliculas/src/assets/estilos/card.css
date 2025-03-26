@@ -1,4 +1,7 @@
 .card {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease-out forwards;
     background: rgba(183, 183, 183, 0.51);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -91,4 +94,29 @@
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card-calificacion{
+    background-color: #FFA725;
+    padding: 5px;
+    border-radius: 150px;
+    font-weight: bolder;
+
+}
+
+.btn-ver-creditos{
+    width: 140px;
+    height: 30px;
+    background-color: #A55B4B;
 }

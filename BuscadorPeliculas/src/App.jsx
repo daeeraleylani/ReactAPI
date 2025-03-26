@@ -4,6 +4,7 @@ import Contenedor from './components/contenedor';
 import { Card } from './components/card';
 import axios from 'axios';
 import SearchBar from './components/searchBar';
+import { useMemo } from 'react';
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -54,46 +55,61 @@ function App() {
   }, [genres]);
 
   const handleSearchChange = (event) => {
-    const value = event.target.value;
-    setSearchTerm(value);
-    setIsLoading(true); // Activar la animación de carga
+    
+    let value = event.target.value.trimStart();
 
-    // Simular un retraso antes de actualizar los resultados
+    setSearchTerm(value);
+    setIsLoading(true); 
+
+    
     setTimeout(() => {
-      setIsLoading(false); // Desactivar la animación de carga
-    }, 500); // Puedes ajustar el tiempo del retraso
+      setIsLoading(false); 
+    }, 500); 
   };
 
-  const filteredMovies = movies.filter(movie => {
-    const movieNameMatch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const genreMatch = movie.genreNames.toLowerCase().includes(searchTerm.toLowerCase());
-    return movieNameMatch || genreMatch;
-  });
+  const filteredMovies = useMemo(() => {
+    return movies.filter(movie => {
+        const movieNameMatch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
+        const genreMatch = movie.genreNames.toLowerCase().includes(searchTerm.toLowerCase());
+        return movieNameMatch || genreMatch;
+    });
+}, [movies, searchTerm]);
 
   return (
     <Contenedor>
       <div className="search-container">
         <SearchBar searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
-        {isLoading && <div className="loading-spinner"></div>} {/* Animación de carga debajo del buscador */}
+        {isLoading && <div className="loading-spinner"></div>}
       </div>
-      <div className="movies-container">
-        {filteredMovies.map((movie) => (
-          <div key={movie.id} className="movie-card-wrapper">
-            <Card
-              id={movie.id}
-              imagen={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-              name={movie.title}
-              overview={movie.overview}
-              releaseDate={movie.release_date}
-              voteAverage={movie.vote_average}
-              genreIds={movie.genre_ids}
-              allGenres={genres}
-            />
-          </div>
-        ))}
-      </div>
+  
+      {searchTerm.length > 0 && (
+        <div className="movies-container">
+          {filteredMovies.length > 0 ? (
+            filteredMovies.map((movie) => (
+              <div key={movie.id} className="movie-card-wrapper">
+                <Card
+                  id={movie.id}
+                  imagen={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  name={movie.title}
+                  overview={movie.overview}
+                  releaseDate={movie.release_date}
+                  voteAverage={movie.vote_average}
+                  genreIds={movie.genre_ids}
+                  allGenres={genres}
+                />
+              </div>
+            ))
+          ) : (
+            <div className="no-results">
+               <img src="/223614-P1B7MY-293.jpg" alt="No se encontraron películas" className="no-results-image"  width="450px"/>
+               <p className='no-results-text'>No se encontraron películas.</p>
+            </div>
+          )}
+        </div>
+      )}
     </Contenedor>
   );
+  
 }
 
 export default App;

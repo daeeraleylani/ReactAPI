@@ -74,7 +74,6 @@ function App() {
     <Contenedor>
       <div className="search-container">
         <SearchBar searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
-        {isLoading && <div className="loading-spinner"></div>} {/* Animación de carga debajo del buscador */}
       </div>
       <div className="movies-container">
         {filteredMovies.map((movie) => (

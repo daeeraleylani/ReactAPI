@@ -3,7 +3,17 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import { useState } from 'react';
 
-function Card({ id, name, imagen, overview, releaseDate, voteAverage, genreIds, allGenres }) {
+function Card({ 
+  id, 
+  name, 
+  imagen, 
+  overview, 
+  releaseDate, 
+  voteAverage, 
+  genreIds, 
+  allGenres, 
+  director // Nueva prop
+}) {
     const genresList = genreIds.map(id => allGenres.find(genre => genre.id === id)?.name).join(", ") || "No disponible";
     const [isLoadingCredits, setIsLoadingCredits] = useState(false); 
 
@@ -109,8 +119,9 @@ function Card({ id, name, imagen, overview, releaseDate, voteAverage, genreIds, 
                     <strong>Descripción:</strong> {overview || "No disponible"}
                 </p>
                 <p><strong>Fecha de estreno:</strong> {releaseDate || "No disponible"}</p>
-                
                 <p><strong>Géneros:</strong> {genresList}</p>
+                {/* Nuevo apartado para el creador */}
+                <p><strong>Director:</strong> {director || "No disponible"}</p>
             </div>
             <button 
                 className={`btn-ver-creditos ${isLoadingCredits ? 'loading' : ''}`} 

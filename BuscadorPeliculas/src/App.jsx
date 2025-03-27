@@ -1,85 +1,123 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import './App.css';
 import Contenedor from './components/contenedor';
 import { Card } from './components/card';
 import axios from 'axios';
 import SearchBar from './components/searchBar';
-import { useMemo } from 'react';
 
 function App() {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // Estado para la animación de carga
+  const [isLoading, setIsLoading] = useState(false);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
+  // Función de normalización de texto para búsquedas
+  const normalizeText = (text) => 
+    text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+  // Debounce para el término de búsqueda
   useEffect(() => {
-    axios.get('https://api.themoviedb.org/3/genre/movie/list', {
-      headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
-      },
-      params: {
-        language: 'es-ES',
-      },
-    })
-      .then(response => {
-        setGenres(response.data.genres);
-      })
-      .catch(error => {
-        console.error('Error al obtener los géneros:', error);
-      });
+    const timerId = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 300);
+
+    return () => clearTimeout(timerId);
+  }, [searchTerm]);
+
+  // Carga inicial de datos
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [genresResponse, moviesResponse] = await Promise.all([
+          axios.get('https://api.themoviedb.org/3/genre/movie/list', {
+            headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}` },
+            params: { language: 'es-ES' }
+          }),
+          axios.get('https://api.themoviedb.org/3/movie/popular', {
+            headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}` },
+            params: { language: 'es-ES' }
+          })
+        ]);
+
+        setGenres(genresResponse.data.genres);
+
+        // Obtener créditos de cada película
+        const moviesWithCredits = await Promise.all(
+          moviesResponse.data.results.map(async movie => {
+            const creditsResponse = await axios.get(
+              `https://api.themoviedb.org/3/movie/${movie.id}/credits`,
+              {
+                headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}` }
+              }
+            );
+
+            // Encontrar al director (o productor)
+            const director = creditsResponse.data.crew.find(
+              member => member.job === "Director"
+            )?.name || "No disponible";
+
+            return {
+              ...movie,
+              genreNames: movie.genre_ids
+                .map(id => genresResponse.data.genres.find(g => g.id === id)?.name)
+                .filter(Boolean)
+                .join(", ") || "No disponible",
+              cast: creditsResponse.data.cast
+                .map(actor => actor.name)
+                .join(", "),
+              director: director // Agregamos el nombre del director
+            };
+          })
+        );
+
+        setMovies(moviesWithCredits);
+      } catch (error) {
+        console.error('Error:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  useEffect(() => {
-    axios.get('https://api.themoviedb.org/3/movie/popular', {
-      headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
-      },
-      params: {
-        language: 'es-ES',
-      },
-    })
-      .then(response => {
-        const moviesWithGenres = response.data.results.map(movie => {
-          const genreNames = movie.genre_ids
-            .map(id => genres.find(genre => genre.id === id)?.name)
-            .join(", ");
-          return { ...movie, genreNames: genreNames || "No disponible" };
-        });
-        setMovies(moviesWithGenres);
-      })
-      .catch(error => {
-        console.error('Error al obtener las películas:', error);
-      });
-  }, [genres]);
-
   const handleSearchChange = (event) => {
-    
     let value = event.target.value.trimStart();
-
     setSearchTerm(value);
-    setIsLoading(true); 
+    setIsLoading(true);
 
-    
     setTimeout(() => {
-      setIsLoading(false); 
-    }, 500); 
+      setIsLoading(false);
+    }, 500);
   };
 
+  // Filtrado optimizado
   const filteredMovies = useMemo(() => {
+    if (!debouncedSearchTerm) return movies;
+    
+    const normalizedTerm = normalizeText(debouncedSearchTerm);
+    
     return movies.filter(movie => {
-        const movieNameMatch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
-        const genreMatch = movie.genreNames.toLowerCase().includes(searchTerm.toLowerCase());
-        return movieNameMatch || genreMatch;
+      const normalizedTitle = normalizeText(movie.title);
+      const normalizedGenres = normalizeText(movie.genreNames);
+      const normalizedCast = normalizeText(movie.cast);
+      const normalizedDirector = normalizeText(movie.director);
+      
+      return (
+        normalizedTitle.includes(normalizedTerm) || 
+        normalizedGenres.includes(normalizedTerm) ||
+        normalizedCast.includes(normalizedTerm) ||
+        normalizedDirector.includes(normalizedTerm) 
+      );
     });
-}, [movies, searchTerm]);
+  }, [movies, debouncedSearchTerm]);
 
   return (
     <Contenedor>
       <div className="search-container">
         <SearchBar searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
-        {isLoading && <div className="loading-spinner"></div>} {/* Animación de carga debajo del buscador */}
+        {isLoading && <div className="loading-spinner"></div>}
       </div>
   
       {searchTerm.length > 0 && (
@@ -96,6 +134,7 @@ function App() {
                   voteAverage={movie.vote_average}
                   genreIds={movie.genre_ids}
                   allGenres={genres}
+                  director={movie.director} 
                 />
               </div>
             ))
@@ -109,7 +148,6 @@ function App() {
       )}
     </Contenedor>
   );
-  
 }
 
 export default App;

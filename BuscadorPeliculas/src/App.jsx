@@ -11,12 +11,10 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
-
-  // Función de normalización de texto para búsquedas
+  
   const normalizeText = (text) => 
-    text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-
-  // Debounce para el término de búsqueda
+    text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  
   useEffect(() => {
     const timerId = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
@@ -24,8 +22,7 @@ function App() {
 
     return () => clearTimeout(timerId);
   }, [searchTerm]);
-
-  // Carga inicial de datos
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,7 +39,6 @@ function App() {
 
         setGenres(genresResponse.data.genres);
 
-        // Obtener créditos de cada película
         const moviesWithCredits = await Promise.all(
           moviesResponse.data.results.map(async movie => {
             const creditsResponse = await axios.get(
@@ -52,7 +48,6 @@ function App() {
               }
             );
 
-            // Encontrar al director (o productor)
             const director = creditsResponse.data.crew.find(
               member => member.job === "Director"
             )?.name || "No disponible";
@@ -66,7 +61,7 @@ function App() {
               cast: creditsResponse.data.cast
                 .map(actor => actor.name)
                 .join(", "),
-              director: director // Agregamos el nombre del director
+              director: director 
             };
           })
         );
@@ -86,13 +81,11 @@ function App() {
     let value = event.target.value.trimStart();
     setSearchTerm(value);
     setIsLoading(true);
-
     setTimeout(() => {
       setIsLoading(false);
     }, 500);
   };
 
-  // Filtrado optimizado
   const filteredMovies = useMemo(() => {
     if (!debouncedSearchTerm) return movies;
     
@@ -113,6 +106,13 @@ function App() {
     });
   }, [movies, debouncedSearchTerm]);
 
+  const getRandomMovies = (moviesList, count) => {
+    const shuffled = [...moviesList].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  };
+
+  const displayedMovies = searchTerm.length > 0 ? filteredMovies : getRandomMovies(movies, 6);
+
   return (
     <Contenedor>
       <div className="search-container">
@@ -120,32 +120,30 @@ function App() {
         {isLoading && <div className="loading-spinner"></div>}
       </div>
   
-      {searchTerm.length > 0 && (
-        <div className="movies-container">
-          {filteredMovies.length > 0 ? (
-            filteredMovies.map((movie) => (
-              <div key={movie.id} className="movie-card-wrapper">
-                <Card
-                  id={movie.id}
-                  imagen={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  name={movie.title}
-                  overview={movie.overview}
-                  releaseDate={movie.release_date}
-                  voteAverage={movie.vote_average}
-                  genreIds={movie.genre_ids}
-                  allGenres={genres}
-                  director={movie.director} 
-                />
-              </div>
-            ))
-          ) : (
-            <div className="no-results">
-               <img src="/223614-P1B7MY-293.jpg" alt="No se encontraron películas" className="no-results-image"  width="450px"/>
-               <p className='no-results-text'>No se encontraron películas.</p>
+      <div className="movies-container">
+        {displayedMovies.length > 0 ? (
+          displayedMovies.map((movie) => (
+            <div key={movie.id} className="movie-card-wrapper">
+              <Card
+                id={movie.id}
+                imagen={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                name={movie.title}
+                overview={movie.overview}
+                releaseDate={movie.release_date}
+                voteAverage={movie.vote_average}
+                genreIds={movie.genre_ids}
+                allGenres={genres}
+                director={movie.director} 
+              />
             </div>
-          )}
-        </div>
-      )}
+          ))
+        ) : (
+          <div className="no-results">
+             <img src="/223614-P1B7MY-293.jpg" alt="No se encontraron películas" className="no-results-image"  width="450px"/>
+             <p className='no-results-text'>No se encontraron películas.</p>
+          </div>
+        )}
+      </div>
     </Contenedor>
   );
 }

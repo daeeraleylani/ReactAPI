@@ -127,6 +127,7 @@ function Card({
                 className={`btn-ver-creditos ${isLoadingCredits ? 'loading' : ''}`} 
                 onClick={fetchCredits}
                 disabled={isLoadingCredits} 
+                
             >
                 {isLoadingCredits ? (
                     <span className="loading-spinner"></span> 

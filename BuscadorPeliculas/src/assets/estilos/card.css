@@ -4,19 +4,27 @@
     animation: fadeInUp 0.5s ease-out forwards;
     background: rgba(183, 183, 183, 0.51);
     border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, height 0.3s ease;
+    min-height: 350px;
+    max-width: 100%;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(9.7px);
     -webkit-backdrop-filter: blur(9.7px);
     border: 1px solid rgba(183, 183, 183, 0.04);
-    align-content: center;
     width: 300px;
     height: 690px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    overflow: hidden;
     position: relative;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+    height: auto;
 }
 
 .card-image {
@@ -29,14 +37,24 @@
 }
 
 .card-content {
-    text-align: justify;
+    text-align: center;
     justify-content: center;
+    align-items: center;
     flex: 1;
     overflow: hidden;
     display: flex;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
     flex-direction: column;
+    overflow: hidden;
     gap: 5px;
+    max-height: 80px;
 }
+
+.card:hover .card-content {
+    max-height: 1000px;
+    opacity: 1;
+}
+
 
 .card-description {
     font-size: 14px;
@@ -74,8 +92,8 @@
 }
 
 .btn-ver-creditos.loading {
-    background-color: #0056b3; 
-    cursor: not-allowed; 
+    background-color: #0056b3;
+    cursor: not-allowed;
 }
 
 .btn-ver-creditos:hover:not(.loading) {
@@ -92,8 +110,13 @@
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes fadeInUp {
@@ -101,13 +124,14 @@
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-.card-calificacion{
+.card-calificacion {
     background-color: #FFA725;
     padding: 5px;
     border-radius: 150px;
@@ -115,8 +139,40 @@
 
 }
 
-.btn-ver-creditos{
+.btn-ver-creditos {
     width: 140px;
     height: 30px;
     background-color: #A55B4B;
+}
+
+@media (max-width: 768px) {
+
+    .card,
+    .card-description,
+    .card-title {
+        font-size: 30px;
+    }
+
+    .card {
+        width: 80%
+    }
+
+    .btn-ver-creditos {
+        height: 80px;
+    }
+
+    .card-image {
+        width: 300px;
+        height: 400px;
+    }
+}
+
+@media (min-width: 577px) and (max-width: 1024px) {
+    .card {
+        width: 450px;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        display: flex;
+    }
 }

@@ -1,6 +1,7 @@
 .seccion_Contactos{
     width: 1250px;
- 
+
+    text-align: center;
 }
 .seccion_Titulo{
     color: srgb(255, 255, 255);
@@ -19,5 +20,22 @@
     gap: 15px;
     justify-content: space-between;
 }
+
+@media (min-width: 768px) {
+    .section_contactos_datos{
+        gap:2px
+    }
+    
+    
+}
+
+@media (max-width: 768px) {
+    .section_contactos_datos{
+        gap:0px
+    }
+    
+}
+
+
 
 
